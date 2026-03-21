@@ -11,6 +11,9 @@ import {
   V1ObjectMeta,
   V1PersistentVolumeClaimSpec,
   V1SecretKeySelector,
+  V1EnvVar,
+  V1EnvFromSource,
+  V1Toleration,
 } from '@kubernetes/client-node';
 
 import { ApiObject, ApiObjectMetadata, GroupVersionKind } from 'cdk8s';
@@ -44,6 +47,8 @@ export class ApiResource implements cdk8splus.IApiResource {
 }
 
 export class model extends ApiObject implements modelSpec {
+  public image?: string;
+  public imagePullSecret?: string;
   public modelStorage?: {
     PersistentVolumeClaim?: V1PersistentVolumeClaimSpec;
     existingVolume?: string;
@@ -56,6 +61,27 @@ export class model extends ApiObject implements modelSpec {
       };
     };
   };
+  public engine?: string;
+  public features?: string[];
+  public resourceProfile?: string;
+  public entrypoint?: string[];
+  public args?: string[];
+  public env?: V1EnvVar[];
+  public envFrom?: V1EnvFromSource[];
+  public replicas?: number;
+  public autoscaling?: {
+    minReplicas?: number;
+    maxReplicas?: number;
+    idleScaleDown?: number;
+    busyScaleUp?: {
+      bucket: number;
+      activePercent: number;
+    };
+  };
+  public nodeSelector?: {
+    [key: string]: string;
+  };
+  public tolerations?: V1Toleration[];
   public status?: modelStatus;
 
   /**
@@ -91,7 +117,20 @@ export class model extends ApiObject implements modelSpec {
       ...model.GVK,
       ...props,
     });
+    this.image = props?.spec?.image;
+    this.imagePullSecret = props?.spec?.imagePullSecret;
     this.modelStorage = props?.spec?.modelStorage;
+    this.engine = props?.spec?.engine;
+    this.features = props?.spec?.features;
+    this.resourceProfile = props?.spec?.resourceProfile;
+    this.entrypoint = props?.spec?.entrypoint;
+    this.args = props?.spec?.args;
+    this.env = props?.spec?.env;
+    this.envFrom = props?.spec?.envFrom;
+    this.replicas = props?.spec?.replicas;
+    this.autoscaling = props?.spec?.autoscaling;
+    this.nodeSelector = props?.spec?.nodeSelector;
+    this.tolerations = props?.spec?.tolerations;
     this.status = props?.status;
   }
 
@@ -138,7 +177,20 @@ export function toJson_modelSpec(
     return undefined;
   }
   const result = {
+    image: obj.image,
+    imagePullSecret: obj.imagePullSecret,
     modelStorage: obj.modelStorage,
+    engine: obj.engine,
+    features: obj.features,
+    resourceProfile: obj.resourceProfile,
+    entrypoint: obj.entrypoint,
+    args: obj.args,
+    env: obj.env,
+    envFrom: obj.envFrom,
+    replicas: obj.replicas,
+    autoscaling: obj.autoscaling,
+    nodeSelector: obj.nodeSelector,
+    tolerations: obj.tolerations,
   };
   // filter undefined values
   return Object.entries(result).reduce(
@@ -148,6 +200,16 @@ export function toJson_modelSpec(
 }
 
 export interface modelSpec {
+  /**
+   * image specifies the container image to use for the model
+   */
+  image?: string;
+
+  /**
+   * imagePullSecret specifies the secret to use for pulling the image
+   */
+  imagePullSecret?: string;
+
   /**
    * modelStorage defines the storage configuration for the model
    */
@@ -192,6 +254,96 @@ export interface modelSpec {
       };
     };
   };
+
+  /**
+   * engine specifies the model engine to use
+   */
+  engine?: string;
+
+  /**
+   * features specifies the model features
+   */
+  features?: string[];
+
+  /**
+   * resourceProfile specifies the resource profile to reference for this model.
+   * This is a reference to a predefined resource profile that defines CPU, memory,
+   * and other node resources needed for the model.
+   */
+  resourceProfile?: string;
+
+  /**
+   * entrypoint overrides the image entrypoint
+   */
+  entrypoint?: string[];
+
+  /**
+   * args overrides the image args
+   */
+  args?: string[];
+
+  /**
+   * env specifies extra environment variables to set in the container
+   */
+  env?: V1EnvVar[];
+
+  /**
+   * envFrom specifies extra environment variables from sources to set in the container
+   */
+  envFrom?: V1EnvFromSource[];
+
+  /**
+   * replicas specifies the default number of replicas
+   */
+  replicas?: number;
+
+  /**
+   * autoscaling specifies the autoscaling configuration
+   */
+  autoscaling?: {
+    /**
+     * minReplicas specifies the minimum replicas when autoscaling is enabled
+     */
+    minReplicas?: number;
+
+    /**
+     * maxReplicas specifies the maximum replicas when autoscaling is enabled
+     */
+    maxReplicas?: number;
+
+    /**
+     * idleScaleDown specifies seconds model can be idle before we scale to minReplicas
+     */
+    idleScaleDown?: number;
+
+    /**
+     * busyScaleUp specifies the scale-up configuration
+     */
+    busyScaleUp?: {
+      /**
+       * bucket specifies seconds to size the bucket
+       */
+      bucket: number;
+
+      /**
+       * activePercent specifies percentage of the bucket we have to be busy to trigger scaling up
+       */
+      activePercent: number;
+    };
+  };
+
+  /**
+   * nodeSelector specifies node labels for pod assignment.
+   * Each key-value pair represents a label that must be present on a node for the pod to be scheduled there.
+   */
+  nodeSelector?: {
+    [key: string]: string;
+  };
+
+  /**
+   * tolerations specify the taints that the pod can tolerate.
+   */
+  tolerations?: V1Toleration[];
 }
 
 export interface modelStatus {
