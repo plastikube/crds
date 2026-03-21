@@ -1,9 +1,9 @@
 import * as cdk8splus from 'cdk8s-plus-33';
 import KubernetesObject from '@thehonker/k8s-operator';
-import { V1ObjectMeta, V1PersistentVolumeClaimSpec } from '@kubernetes/client-node';
+import { V1ObjectMeta, V1PersistentVolumeClaimSpec, V1SecretKeySelector } from '@kubernetes/client-node';
 import { ApiObject, ApiObjectMetadata, GroupVersionKind } from 'cdk8s';
 import { Construct } from 'constructs';
-import { StatusReasons } from './enums/index.mjs';
+import { StatusReasons, DownloadTypes } from './enums/index.mjs';
 export interface modelResource extends KubernetesObject {
     spec: modelSpec;
     status: modelStatus;
@@ -22,7 +22,18 @@ export declare class ApiResource implements cdk8splus.IApiResource {
     asNonApiResource(): string | undefined;
 }
 export declare class model extends ApiObject implements modelSpec {
-    PersistentVolumeClaim?: V1PersistentVolumeClaimSpec;
+    modelStorage?: {
+        PersistentVolumeClaim?: V1PersistentVolumeClaimSpec;
+        existingVolume?: string;
+        path?: string;
+        download?: {
+            type?: DownloadTypes;
+            source?: string;
+            auth?: {
+                secretKeyRef?: V1SecretKeySelector;
+            };
+        };
+    };
     status?: modelStatus;
     /**
      * Returns the apiVersion and kind for "model"
@@ -57,9 +68,44 @@ export declare function toJson_modelProps(obj: modelProps | undefined): Record<s
 export declare function toJson_modelSpec(obj: modelSpec | undefined): Record<string, unknown> | undefined;
 export interface modelSpec {
     /**
-     * PersistentVolumeClaim defines the PVC configuration for the module
+     * modelStorage defines the storage configuration for the model
      */
-    PersistentVolumeClaim?: V1PersistentVolumeClaimSpec;
+    modelStorage?: {
+        /**
+         * PersistentVolumeClaim defines a new PVC to create for storing the model
+         */
+        PersistentVolumeClaim?: V1PersistentVolumeClaimSpec;
+        /**
+         * existingVolume references an existing PVC to use for storing the model
+         */
+        existingVolume?: string;
+        /**
+         * path specifies the path within the PVC to load the model from
+         */
+        path?: string;
+        /**
+         * download specifies how to download the model
+         */
+        download?: {
+            /**
+             * type specifies the download type (huggingface-dl | wget)
+             */
+            type?: DownloadTypes;
+            /**
+             * source specifies the download source URL / huggingface repo/filename
+             */
+            source?: string;
+            /**
+             * auth specifies authentication for the download
+             */
+            auth?: {
+                /**
+                 * secretKeyRef references a secret key for HUGGINGFACE_TOKEN or HTTP basic auth
+                 */
+                secretKeyRef?: V1SecretKeySelector;
+            };
+        };
+    };
 }
 export interface modelStatus {
     /**

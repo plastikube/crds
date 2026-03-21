@@ -8,3 +8,8 @@ export var StatusReasons;
     StatusReasons["unknown"] = "unknown";
     StatusReasons["ready"] = "ready";
 })(StatusReasons || (StatusReasons = {}));
+export var DownloadTypes;
+(function (DownloadTypes) {
+    DownloadTypes["HUGGINGFACE_DL"] = "huggingface-dl";
+    DownloadTypes["WGET"] = "wget";
+})(DownloadTypes || (DownloadTypes = {}));

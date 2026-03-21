@@ -6,3 +6,7 @@ export declare enum StatusReasons {
     unknown = "unknown",
     ready = "ready"
 }
+export declare enum DownloadTypes {
+    HUGGINGFACE_DL = "huggingface-dl",
+    WGET = "wget"
+}

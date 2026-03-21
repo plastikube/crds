@@ -17,7 +17,7 @@ export class ApiResource {
     }
 }
 export class model extends ApiObject {
-    PersistentVolumeClaim;
+    modelStorage;
     status;
     /**
      * Returns the apiVersion and kind for "model"
@@ -50,7 +50,7 @@ export class model extends ApiObject {
             ...model.GVK,
             ...props,
         });
-        this.PersistentVolumeClaim = props?.spec?.PersistentVolumeClaim;
+        this.modelStorage = props?.spec?.modelStorage;
         this.status = props?.status;
     }
     /**
@@ -80,7 +80,7 @@ export function toJson_modelSpec(obj) {
         return undefined;
     }
     const result = {
-        PersistentVolumeClaim: obj.PersistentVolumeClaim,
+        modelStorage: obj.modelStorage,
     };
     // filter undefined values
     return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
