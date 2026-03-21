@@ -1,0 +1,53 @@
+{
+  "name": "@plastikube/crds",
+  "version": "0.0.2",
+  "description": "crds for plastikube",
+  "keywords": [],
+  "homepage": "https://github.com/plastikube/crds#readme",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/plastikube/crds/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/plastikube/crds.git"
+  },
+  "type": "module",
+  "license": "CC-BY-SA-4.0",
+  "author": "Edwin Pers <pers.edwin@gmail.com>",
+  "main": "dist/index.mjs",
+  "typings": "dist/index.d.mjs",
+  "module": "dist/index.mjs",
+  "scripts": {
+    "lint": "npx eslint src/",
+    "build": "npx tsc && cd src && npx pepr crd generate --output ../crds",
+    "update-libraries": "npm install --save @thehonker/k8s-operator@latest --legacy-peer-deps"
+  },
+  "publishConfig": {
+    "@plastikube:registry": "https://npm.pkg.github.com/"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.18.1",
+    "@typescript-eslint/eslint-plugin": "^8.57.1",
+    "@typescript-eslint/parser": "^8.57.1",
+    "esbuild": "^0.27.4",
+    "eslint": "^9.39.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^5.5.5",
+    "node-forge": "^1.3.3",
+    "pepr": "^1.1.4",
+    "prettier": "^3.8.1",
+    "prompts": "^2.4.2",
+    "typescript": "^5.9.3",
+    "uuid": "^13.0.0"
+  },
+  "dependencies": {
+    "@kubernetes/client-node": "^1.4.0",
+    "@thehonker/k8s-operator": "^3.1.1-alpha.9",
+    "cdk8s": "^2.70.51",
+    "cdk8s-plus-33": "^2.4.38",
+    "constructs": "^10.5.1"
+  }
+}
