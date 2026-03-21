@@ -8,3 +8,8 @@ export enum StatusReasons {
   unknown = 'unknown',
   ready = 'ready',
 }
+
+export enum DownloadTypes {
+  HUGGINGFACE_DL = 'huggingface-dl',
+  WGET = 'wget',
+}
