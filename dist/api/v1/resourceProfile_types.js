@@ -2,7 +2,7 @@
 import { ApiObject } from 'cdk8s';
 export class ApiResource {
     apiGroup = 'plastikube.dev';
-    resourceType = 'models';
+    resourceType = 'resourceprofiles';
     /**
      * Return the IApiResource this object represents.
      */
@@ -16,31 +16,18 @@ export class ApiResource {
         return undefined;
     }
 }
-export class model extends ApiObject {
-    image;
-    imagePullSecret;
-    modelStorage;
-    engine;
-    features;
-    resourceProfile;
-    entrypoint;
-    args;
-    env;
-    envFrom;
-    replicas;
-    autoscaling;
-    nodeSelector;
-    tolerations;
+export class resourceprofile extends ApiObject {
+    resources;
     status;
     /**
-     * Returns the apiVersion and kind for "model"
+     * Returns the apiVersion and kind for "resourceprofile"
      */
     static GVK = {
         apiVersion: 'plastikube.dev/v1',
-        kind: 'models',
+        kind: 'resourceprofiles',
     };
     /**
-     * Renders a Kubernetes manifest for "model".
+     * Renders a Kubernetes manifest for "resourceprofile".
      *
      * This can be used to inline resource manifests inside other objects (e.g. as templates).
      *
@@ -48,35 +35,22 @@ export class model extends ApiObject {
      */
     static manifest(props) {
         return {
-            ...model.GVK,
-            ...toJson_modelProps(props),
+            ...resourceprofile.GVK,
+            ...toJson_resourceprofileProps(props),
         };
     }
     /**
-     * Defines a "model" API object
+     * Defines a "resourceprofile" API object
      * @param scope the scope in which to define this object
      * @param id a scope-local name for the object
      * @param props initialization props
      */
     constructor(scope, id, props) {
         super(scope, id, {
-            ...model.GVK,
+            ...resourceprofile.GVK,
             ...props,
         });
-        this.image = props?.spec?.image;
-        this.imagePullSecret = props?.spec?.imagePullSecret;
-        this.modelStorage = props?.spec?.modelStorage;
-        this.engine = props?.spec?.engine;
-        this.features = props?.spec?.features;
-        this.resourceProfile = props?.spec?.resourceProfile;
-        this.entrypoint = props?.spec?.entrypoint;
-        this.args = props?.spec?.args;
-        this.env = props?.spec?.env;
-        this.envFrom = props?.spec?.envFrom;
-        this.replicas = props?.spec?.replicas;
-        this.autoscaling = props?.spec?.autoscaling;
-        this.nodeSelector = props?.spec?.nodeSelector;
-        this.tolerations = props?.spec?.tolerations;
+        this.resources = props?.spec?.resources;
         this.status = props?.status;
     }
     /**
@@ -85,46 +59,33 @@ export class model extends ApiObject {
     toJson() {
         const resolved = super.toJson();
         return {
-            ...model.GVK,
-            ...toJson_modelProps(resolved),
+            ...resourceprofile.GVK,
+            ...toJson_resourceprofileProps(resolved),
         };
     }
 }
-export function toJson_modelProps(obj) {
+export function toJson_resourceprofileProps(obj) {
     if (obj === undefined) {
         return undefined;
     }
     const result = {
         metadata: obj.metadata,
-        spec: toJson_modelSpec(obj.spec),
+        spec: toJson_resourceprofileSpec(obj.spec),
     };
     // filter undefined values
     return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
-export function toJson_modelSpec(obj) {
+export function toJson_resourceprofileSpec(obj) {
     if (obj === undefined) {
         return undefined;
     }
     const result = {
-        image: obj.image,
-        imagePullSecret: obj.imagePullSecret,
-        modelStorage: obj.modelStorage,
-        engine: obj.engine,
-        features: obj.features,
-        resourceProfile: obj.resourceProfile,
-        entrypoint: obj.entrypoint,
-        args: obj.args,
-        env: obj.env,
-        envFrom: obj.envFrom,
-        replicas: obj.replicas,
-        autoscaling: obj.autoscaling,
-        nodeSelector: obj.nodeSelector,
-        tolerations: obj.tolerations,
+        resources: obj.resources,
     };
     // filter undefined values
     return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
-export function toJson_modelStatus(obj) {
+export function toJson_resourceprofileStatus(obj) {
     if (obj === undefined) {
         return undefined;
     }
@@ -138,10 +99,10 @@ export function toJson_modelStatus(obj) {
     return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 export const details = {
-    name: 'model',
-    plural: 'models',
+    name: 'resourceprofile',
+    plural: 'resourceprofiles',
     group: 'plastikube.dev',
     version: 'v1',
     scope: 'Namespaced',
-    shortName: 'model',
+    shortName: 'resourceprofile',
 };
