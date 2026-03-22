@@ -15,3 +15,8 @@ export var DownloadTypes;
     DownloadTypes["HTTP"] = "http";
     DownloadTypes["S3"] = "s3";
 })(DownloadTypes || (DownloadTypes = {}));
+export var EngineTypes;
+(function (EngineTypes) {
+    EngineTypes["LLAMACPP"] = "llamacpp";
+})(EngineTypes || (EngineTypes = {}));
+export const DefaultDownloaderImage = 'ghcr.io/plastikube/model-downloader:latest';

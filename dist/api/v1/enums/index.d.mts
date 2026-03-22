@@ -12,3 +12,7 @@ export declare enum DownloadTypes {
     HTTP = "http",
     S3 = "s3"
 }
+export declare enum EngineTypes {
+    LLAMACPP = "llamacpp"
+}
+export declare const DefaultDownloaderImage: string;

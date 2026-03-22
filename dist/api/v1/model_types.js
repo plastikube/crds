@@ -1,5 +1,6 @@
 'use strict';
 import { ApiObject } from 'cdk8s';
+import { DefaultDownloaderImage, } from './enums/index.mjs';
 export class ApiResource {
     apiGroup = 'plastikube.dev';
     resourceType = 'models';
@@ -65,6 +66,11 @@ export class model extends ApiObject {
         this.image = props?.spec?.image;
         this.imagePullSecret = props?.spec?.imagePullSecret;
         this.modelStorage = props?.spec?.modelStorage;
+        // Set default downloader image if download job is configured but no image is specified
+        if (this.modelStorage?.download?.job &&
+            !this.modelStorage.download.job.image) {
+            this.modelStorage.download.job.image = DefaultDownloaderImage;
+        }
         this.engine = props?.spec?.engine;
         this.features = props?.spec?.features;
         this.resourceProfile = props?.spec?.resourceProfile;

@@ -3,7 +3,7 @@ import KubernetesObject from '@thehonker/k8s-operator';
 import { V1ObjectMeta, V1PersistentVolumeClaimSpec, V1EnvVar, V1Toleration, V1PodSecurityContext } from '@kubernetes/client-node';
 import { ApiObject, ApiObjectMetadata, GroupVersionKind } from 'cdk8s';
 import { Construct } from 'constructs';
-import { StatusReasons, DownloadTypes } from './enums/index.mjs';
+import { StatusReasons, DownloadTypes, EngineTypes } from './enums/index.mjs';
 export interface modelResource extends KubernetesObject {
     spec: modelSpec;
     status: modelStatus;
@@ -41,7 +41,7 @@ export declare class model extends ApiObject implements modelSpec {
             };
         };
     };
-    engine?: string;
+    engine?: EngineTypes;
     features?: string[];
     resourceProfile?: string;
     entrypoint?: string[];
@@ -164,7 +164,7 @@ export interface modelSpec {
     /**
      * engine specifies the model engine to use
      */
-    engine?: string;
+    engine?: EngineTypes;
     /**
      * features specifies the model features
      */
