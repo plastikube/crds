@@ -1,6 +1,6 @@
 import * as cdk8splus from 'cdk8s-plus-33';
 import KubernetesObject from '@thehonker/k8s-operator';
-import { V1ObjectMeta, V1PersistentVolumeClaimSpec, V1SecretKeySelector, V1EnvVar, V1EnvFromSource, V1Toleration } from '@kubernetes/client-node';
+import { V1ObjectMeta, V1PersistentVolumeClaimSpec, V1EnvVar, V1EnvFromSource, V1Toleration, V1PodSecurityContext } from '@kubernetes/client-node';
 import { ApiObject, ApiObjectMetadata, GroupVersionKind } from 'cdk8s';
 import { Construct } from 'constructs';
 import { StatusReasons, DownloadTypes } from './enums/index.mjs';
@@ -31,8 +31,14 @@ export declare class model extends ApiObject implements modelSpec {
         download?: {
             type?: DownloadTypes;
             source?: string;
-            auth?: {
-                secretKeyRef?: V1SecretKeySelector;
+            job?: {
+                image?: string;
+                imagePullSecret?: string;
+                entrypoint?: string[];
+                args?: string[];
+                env?: V1EnvVar[];
+                envFrom?: V1EnvFromSource[];
+                securityContext?: V1PodSecurityContext;
             };
         };
     };
@@ -119,7 +125,7 @@ export interface modelSpec {
          */
         download?: {
             /**
-             * type specifies the download type (huggingface-dl | wget)
+             * type specifies the download type
              */
             type?: DownloadTypes;
             /**
@@ -127,13 +133,37 @@ export interface modelSpec {
              */
             source?: string;
             /**
-             * auth specifies authentication for the download
+             * job specifies the configuration for the download job
              */
-            auth?: {
+            job?: {
                 /**
-                 * secretKeyRef references a secret key for HUGGINGFACE_TOKEN or HTTP basic auth
+                 * image specifies the container image to use for downloading the model
                  */
-                secretKeyRef?: V1SecretKeySelector;
+                image?: string;
+                /**
+                 * imagePullSecret specifies the secret to use for pulling the downloader image
+                 */
+                imagePullSecret?: string;
+                /**
+                 * entrypoint overrides the image entrypoint for the downloader
+                 */
+                entrypoint?: string[];
+                /**
+                 * args overrides the image args for the downloader
+                 */
+                args?: string[];
+                /**
+                 * env specifies extra environment variables to set in the downloader container
+                 */
+                env?: V1EnvVar[];
+                /**
+                 * envFrom specifies extra environment variables from sources to set in the downloader container
+                 */
+                envFrom?: V1EnvFromSource[];
+                /**
+                 * securityContext specifies security settings for the downloader pod
+                 */
+                securityContext?: V1PodSecurityContext;
             };
         };
     };
