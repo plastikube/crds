@@ -1,6 +1,6 @@
 import * as cdk8splus from 'cdk8s-plus-33';
 import KubernetesObject from '@thehonker/k8s-operator';
-import { V1ObjectMeta, V1PersistentVolumeClaimSpec, V1EnvVar, V1EnvFromSource, V1Toleration, V1PodSecurityContext } from '@kubernetes/client-node';
+import { V1ObjectMeta, V1PersistentVolumeClaimSpec, V1EnvVar, V1Toleration, V1PodSecurityContext } from '@kubernetes/client-node';
 import { ApiObject, ApiObjectMetadata, GroupVersionKind } from 'cdk8s';
 import { Construct } from 'constructs';
 import { StatusReasons, DownloadTypes } from './enums/index.mjs';
@@ -37,7 +37,6 @@ export declare class model extends ApiObject implements modelSpec {
                 entrypoint?: string[];
                 args?: string[];
                 env?: V1EnvVar[];
-                envFrom?: V1EnvFromSource[];
                 securityContext?: V1PodSecurityContext;
             };
         };
@@ -48,7 +47,6 @@ export declare class model extends ApiObject implements modelSpec {
     entrypoint?: string[];
     args?: string[];
     env?: V1EnvVar[];
-    envFrom?: V1EnvFromSource[];
     replicas?: number;
     autoscaling?: {
         minReplicas?: number;
@@ -157,10 +155,6 @@ export interface modelSpec {
                  */
                 env?: V1EnvVar[];
                 /**
-                 * envFrom specifies extra environment variables from sources to set in the downloader container
-                 */
-                envFrom?: V1EnvFromSource[];
-                /**
                  * securityContext specifies security settings for the downloader pod
                  */
                 securityContext?: V1PodSecurityContext;
@@ -193,10 +187,6 @@ export interface modelSpec {
      * env specifies extra environment variables to set in the container
      */
     env?: V1EnvVar[];
-    /**
-     * envFrom specifies extra environment variables from sources to set in the container
-     */
-    envFrom?: V1EnvFromSource[];
     /**
      * replicas specifies the default number of replicas
      */

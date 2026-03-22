@@ -365,50 +365,6 @@ spec:
                                   - name
                               description: env specifies extra environment variables to set in the downloader
                                 container
-                            envFrom:
-                              type: array
-                              items:
-                                type: object
-                                properties:
-                                  configMapRef:
-                                    type: object
-                                    properties:
-                                      name:
-                                        type: string
-                                        description: "Name of the referent. This field is effectively required, but due
-                                          to backwards compatibility is allowed
-                                          to be empty. Instances of this type
-                                          with an empty value here are almost
-                                          certainly wrong. More info:
-                                          https://kubernetes.io/docs/concepts/o\
-                                          verview/working-with-objects/names/#n\
-                                          ames"
-                                      optional:
-                                        type: boolean
-                                        description: Specify whether the ConfigMap must be defined
-                                  prefix:
-                                    type: string
-                                    description: Optional text to prepend to the name of each environment variable.
-                                      May consist of any printable ASCII
-                                      characters except \'=\'.
-                                  secretRef:
-                                    type: object
-                                    properties:
-                                      name:
-                                        type: string
-                                        description: "Name of the referent. This field is effectively required, but due
-                                          to backwards compatibility is allowed
-                                          to be empty. Instances of this type
-                                          with an empty value here are almost
-                                          certainly wrong. More info:
-                                          https://kubernetes.io/docs/concepts/o\
-                                          verview/working-with-objects/names/#n\
-                                          ames"
-                                      optional:
-                                        type: boolean
-                                        description: Specify whether the Secret must be defined
-                              description: envFrom specifies extra environment variables from sources to set
-                                in the downloader container
                             securityContext:
                               type: object
                               properties:
@@ -816,46 +772,6 @@ spec:
                     required:
                       - name
                   description: env specifies extra environment variables to set in the container
-                envFrom:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      configMapRef:
-                        type: object
-                        properties:
-                          name:
-                            type: string
-                            description: "Name of the referent. This field is effectively required, but due
-                              to backwards compatibility is allowed to be empty.
-                              Instances of this type with an empty value here
-                              are almost certainly wrong. More info:
-                              https://kubernetes.io/docs/concepts/overview/work\
-                              ing-with-objects/names/#names"
-                          optional:
-                            type: boolean
-                            description: Specify whether the ConfigMap must be defined
-                      prefix:
-                        type: string
-                        description: Optional text to prepend to the name of each environment variable.
-                          May consist of any printable ASCII characters except
-                          \'=\'.
-                      secretRef:
-                        type: object
-                        properties:
-                          name:
-                            type: string
-                            description: "Name of the referent. This field is effectively required, but due
-                              to backwards compatibility is allowed to be empty.
-                              Instances of this type with an empty value here
-                              are almost certainly wrong. More info:
-                              https://kubernetes.io/docs/concepts/overview/work\
-                              ing-with-objects/names/#names"
-                          optional:
-                            type: boolean
-                            description: Specify whether the Secret must be defined
-                  description: envFrom specifies extra environment variables from sources to set
-                    in the container
                 replicas:
                   type: number
                   description: replicas specifies the default number of replicas

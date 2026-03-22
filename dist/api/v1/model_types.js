@@ -26,7 +26,6 @@ export class model extends ApiObject {
     entrypoint;
     args;
     env;
-    envFrom;
     replicas;
     autoscaling;
     nodeSelector;
@@ -72,7 +71,6 @@ export class model extends ApiObject {
         this.entrypoint = props?.spec?.entrypoint;
         this.args = props?.spec?.args;
         this.env = props?.spec?.env;
-        this.envFrom = props?.spec?.envFrom;
         this.replicas = props?.spec?.replicas;
         this.autoscaling = props?.spec?.autoscaling;
         this.nodeSelector = props?.spec?.nodeSelector;
@@ -115,7 +113,6 @@ export function toJson_modelSpec(obj) {
         entrypoint: obj.entrypoint,
         args: obj.args,
         env: obj.env,
-        envFrom: obj.envFrom,
         replicas: obj.replicas,
         autoscaling: obj.autoscaling,
         nodeSelector: obj.nodeSelector,
