@@ -62,7 +62,6 @@ export class model extends ApiObject implements modelSpec {
         entrypoint?: string[];
         args?: string[];
         env?: V1EnvVar[];
-        envFrom?: V1EnvFromSource[];
         securityContext?: V1PodSecurityContext;
       };
     };
@@ -73,7 +72,6 @@ export class model extends ApiObject implements modelSpec {
   public entrypoint?: string[];
   public args?: string[];
   public env?: V1EnvVar[];
-  public envFrom?: V1EnvFromSource[];
   public replicas?: number;
   public autoscaling?: {
     minReplicas?: number;
@@ -132,7 +130,6 @@ export class model extends ApiObject implements modelSpec {
     this.entrypoint = props?.spec?.entrypoint;
     this.args = props?.spec?.args;
     this.env = props?.spec?.env;
-    this.envFrom = props?.spec?.envFrom;
     this.replicas = props?.spec?.replicas;
     this.autoscaling = props?.spec?.autoscaling;
     this.nodeSelector = props?.spec?.nodeSelector;
@@ -192,7 +189,6 @@ export function toJson_modelSpec(
     entrypoint: obj.entrypoint,
     args: obj.args,
     env: obj.env,
-    envFrom: obj.envFrom,
     replicas: obj.replicas,
     autoscaling: obj.autoscaling,
     nodeSelector: obj.nodeSelector,
@@ -279,11 +275,6 @@ export interface modelSpec {
         env?: V1EnvVar[];
 
         /**
-         * envFrom specifies extra environment variables from sources to set in the downloader container
-         */
-        envFrom?: V1EnvFromSource[];
-
-        /**
          * securityContext specifies security settings for the downloader pod
          */
         securityContext?: V1PodSecurityContext;
@@ -322,11 +313,6 @@ export interface modelSpec {
    * env specifies extra environment variables to set in the container
    */
   env?: V1EnvVar[];
-
-  /**
-   * envFrom specifies extra environment variables from sources to set in the container
-   */
-  envFrom?: V1EnvFromSource[];
 
   /**
    * replicas specifies the default number of replicas
