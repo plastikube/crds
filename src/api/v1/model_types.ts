@@ -11,7 +11,6 @@ import {
   V1ObjectMeta,
   V1PersistentVolumeClaimSpec,
   V1EnvVar,
-  V1EnvFromSource,
   V1Toleration,
   V1PodSecurityContext,
 } from '@kubernetes/client-node';
@@ -19,7 +18,12 @@ import {
 import { ApiObject, ApiObjectMetadata, GroupVersionKind } from 'cdk8s';
 import { Construct } from 'constructs';
 
-import { StatusReasons, DownloadTypes } from './enums/index.mjs';
+import {
+  StatusReasons,
+  DownloadTypes,
+  EngineTypes,
+  DefaultDownloaderImage,
+} from './enums/index.mjs';
 
 export interface modelResource extends KubernetesObject {
   spec: modelSpec;
@@ -66,7 +70,7 @@ export class model extends ApiObject implements modelSpec {
       };
     };
   };
-  public engine?: string;
+  public engine?: EngineTypes;
   public features?: string[];
   public resourceProfile?: string;
   public entrypoint?: string[];
@@ -124,6 +128,15 @@ export class model extends ApiObject implements modelSpec {
     this.image = props?.spec?.image;
     this.imagePullSecret = props?.spec?.imagePullSecret;
     this.modelStorage = props?.spec?.modelStorage;
+
+    // Set default downloader image if download job is configured but no image is specified
+    if (
+      this.modelStorage?.download?.job &&
+      !this.modelStorage.download.job.image
+    ) {
+      this.modelStorage.download.job.image = DefaultDownloaderImage;
+    }
+
     this.engine = props?.spec?.engine;
     this.features = props?.spec?.features;
     this.resourceProfile = props?.spec?.resourceProfile;
@@ -285,7 +298,7 @@ export interface modelSpec {
   /**
    * engine specifies the model engine to use
    */
-  engine?: string;
+  engine?: EngineTypes;
 
   /**
    * features specifies the model features

@@ -15,3 +15,9 @@ export enum DownloadTypes {
   HTTP = 'http',
   S3 = 's3',
 }
+
+export enum EngineTypes {
+  LLAMACPP = 'llamacpp',
+}
+
+export const DefaultDownloaderImage: string = 'ghcr.io/plastikube/model-downloader:latest';
