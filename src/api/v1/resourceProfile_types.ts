@@ -38,7 +38,10 @@ export class ApiResource implements cdk8splus.IApiResource {
 }
 
 export class resourceprofile extends ApiObject implements resourceprofileSpec {
-  public resources?: {
+  public requests?: {
+    [key: string]: string;
+  };
+  public limits?: {
     [key: string]: string;
   };
   public status?: resourceprofileStatus;
@@ -80,7 +83,8 @@ export class resourceprofile extends ApiObject implements resourceprofileSpec {
       ...resourceprofile.GVK,
       ...props,
     });
-    this.resources = props?.spec?.resources;
+    this.requests = props?.spec?.requests;
+    this.limits = props?.spec?.limits;
     this.status = props?.status;
   }
 
@@ -127,7 +131,8 @@ export function toJson_resourceprofileSpec(
     return undefined;
   }
   const result = {
-    resources: obj.resources,
+    requests: obj.requests,
+    limits: obj.limits,
   };
   // filter undefined values
   return Object.entries(result).reduce(
@@ -138,10 +143,18 @@ export function toJson_resourceprofileSpec(
 
 export interface resourceprofileSpec {
   /**
-   * resources defines the compute resources (CPU, memory, etc.) required for this profile.
+   * requests defines the minimum compute resources (CPU, memory, etc.) required for this profile.
    * Keys are resource names (e.g., "cpu", "memory", "nvidia.com/gpu") and values are resource quantities.
    */
-  resources?: {
+  requests?: {
+    [key: string]: string;
+  };
+
+  /**
+   * limits defines the maximum compute resources (CPU, memory, etc.) allowed for this profile.
+   * Keys are resource names (e.g., "cpu", "memory", "nvidia.com/gpu") and values are resource quantities.
+   */
+  limits?: {
     [key: string]: string;
   };
 }
