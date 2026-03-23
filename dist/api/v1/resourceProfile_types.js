@@ -17,7 +17,8 @@ export class ApiResource {
     }
 }
 export class resourceprofile extends ApiObject {
-    resources;
+    requests;
+    limits;
     status;
     /**
      * Returns the apiVersion and kind for "resourceprofile"
@@ -50,7 +51,8 @@ export class resourceprofile extends ApiObject {
             ...resourceprofile.GVK,
             ...props,
         });
-        this.resources = props?.spec?.resources;
+        this.requests = props?.spec?.requests;
+        this.limits = props?.spec?.limits;
         this.status = props?.status;
     }
     /**
@@ -80,7 +82,8 @@ export function toJson_resourceprofileSpec(obj) {
         return undefined;
     }
     const result = {
-        resources: obj.resources,
+        requests: obj.requests,
+        limits: obj.limits,
     };
     // filter undefined values
     return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});

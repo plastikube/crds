@@ -23,12 +23,21 @@ spec:
               type: object
               description: resourceprofileSpec defines the desired state of resourceprofile
               properties:
-                resources:
+                requests:
                   type: object
                   properties: {}
                   description: >-
-                    resources defines the compute resources (CPU, memory, etc.)
-                    required for this profile.
+                    requests defines the minimum compute resources (CPU, memory,
+                    etc.) required for this profile.
+
+                    Keys are resource names (e.g., "cpu", "memory",
+                    "nvidia.com/gpu") and values are resource quantities.
+                limits:
+                  type: object
+                  properties: {}
+                  description: >-
+                    limits defines the maximum compute resources (CPU, memory,
+                    etc.) allowed for this profile.
 
                     Keys are resource names (e.g., "cpu", "memory",
                     "nvidia.com/gpu") and values are resource quantities.

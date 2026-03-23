@@ -21,7 +21,10 @@ export declare class ApiResource implements cdk8splus.IApiResource {
     asNonApiResource(): string | undefined;
 }
 export declare class resourceprofile extends ApiObject implements resourceprofileSpec {
-    resources?: {
+    requests?: {
+        [key: string]: string;
+    };
+    limits?: {
         [key: string]: string;
     };
     status?: resourceprofileStatus;
@@ -58,10 +61,17 @@ export declare function toJson_resourceprofileProps(obj: resourceprofileProps | 
 export declare function toJson_resourceprofileSpec(obj: resourceprofileSpec | undefined): Record<string, unknown> | undefined;
 export interface resourceprofileSpec {
     /**
-     * resources defines the compute resources (CPU, memory, etc.) required for this profile.
+     * requests defines the minimum compute resources (CPU, memory, etc.) required for this profile.
      * Keys are resource names (e.g., "cpu", "memory", "nvidia.com/gpu") and values are resource quantities.
      */
-    resources?: {
+    requests?: {
+        [key: string]: string;
+    };
+    /**
+     * limits defines the maximum compute resources (CPU, memory, etc.) allowed for this profile.
+     * Keys are resource names (e.g., "cpu", "memory", "nvidia.com/gpu") and values are resource quantities.
+     */
+    limits?: {
         [key: string]: string;
     };
 }
