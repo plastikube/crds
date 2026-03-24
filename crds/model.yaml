@@ -186,7 +186,7 @@ spec:
                           type: string
                           description: volumeName is the binding reference to the PersistentVolume backing
                             this claim.
-                      description: PersistentVolumeClaim defines a new PVC to create for storing the
+                      description: persistentVolumeClaim defines a new PVC to create for storing the
                         model
                     existingVolume:
                       type: string
