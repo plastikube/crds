@@ -54,7 +54,7 @@ export class model extends ApiObject implements modelSpec {
   public image?: string;
   public imagePullSecret?: string;
   public modelStorage?: {
-    PersistentVolumeClaim?: V1PersistentVolumeClaimSpec;
+    persistentVolumeClaim?: V1PersistentVolumeClaimSpec;
     existingVolume?: string;
     path?: string;
     download?: {
@@ -230,9 +230,9 @@ export interface modelSpec {
    */
   modelStorage?: {
     /**
-     * PersistentVolumeClaim defines a new PVC to create for storing the model
+     * persistentVolumeClaim defines a new PVC to create for storing the model
      */
-    PersistentVolumeClaim?: V1PersistentVolumeClaimSpec;
+    persistentVolumeClaim?: V1PersistentVolumeClaimSpec;
 
     /**
      * existingVolume references an existing PVC to use for storing the model
