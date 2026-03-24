@@ -21,6 +21,7 @@ export declare class ApiResource implements cdk8splus.IApiResource {
     asNonApiResource(): string | undefined;
 }
 export declare class router extends ApiObject implements routerSpec {
+    enabled?: boolean;
     image?: string;
     imagePullSecret?: string;
     env?: V1EnvVar[];
@@ -43,6 +44,34 @@ export declare class router extends ApiObject implements routerSpec {
     models?: Array<{
         model: string;
     }>;
+    ingress?: {
+        enabled?: boolean;
+        ingressClassName?: string;
+        hosts?: Array<{
+            host: string;
+            paths?: Array<{
+                path?: string;
+                pathType?: string;
+                backendPath?: string;
+            }>;
+        }>;
+        tls?: Array<{
+            hosts: string[];
+            secretName: string;
+        }>;
+        annotations?: {
+            [key: string]: string;
+        };
+    };
+    service?: {
+        enabled?: boolean;
+        type?: string;
+        port?: number;
+        targetPort?: number;
+        annotations?: {
+            [key: string]: string;
+        };
+    };
     status?: routerStatus;
     /**
      * Returns the apiVersion and kind for "router"
@@ -76,6 +105,10 @@ export interface routerProps {
 export declare function toJson_routerProps(obj: routerProps | undefined): Record<string, unknown> | undefined;
 export declare function toJson_routerSpec(obj: routerSpec | undefined): Record<string, unknown> | undefined;
 export interface routerSpec {
+    /**
+     * enabled specifies whether the router is enabled
+     */
+    enabled?: boolean;
     /**
      * image specifies the container image to use for the router
      */
@@ -147,6 +180,91 @@ export interface routerSpec {
          */
         model: string;
     }>;
+    /**
+     * ingress specifies the ingress configuration for routing external traffic to the router
+     */
+    ingress?: {
+        /**
+         * enabled specifies whether ingress is enabled for this router
+         */
+        enabled?: boolean;
+        /**
+         * ingressClassName specifies the class of the ingress controller to use
+         */
+        ingressClassName?: string;
+        /**
+         * hosts specifies the hostnames for which ingress rules should be created
+         */
+        hosts?: Array<{
+            /**
+             * host specifies the hostname for the ingress rule
+             */
+            host: string;
+            /**
+             * paths specifies the paths for the ingress rule
+             */
+            paths?: Array<{
+                /**
+                 * path specifies the path for the ingress rule
+                 */
+                path?: string;
+                /**
+                 * pathType specifies the path type for the ingress rule (Prefix, Exact, ImplementationSpecific)
+                 */
+                pathType?: string;
+                /**
+                 * backendPath specifies the path to the backend service
+                 */
+                backendPath?: string;
+            }>;
+        }>;
+        /**
+         * tls specifies TLS configuration for the ingress
+         */
+        tls?: Array<{
+            /**
+             * hosts specifies the hosts for which the TLS configuration applies
+             */
+            hosts: string[];
+            /**
+             * secretName specifies the name of the secret containing the TLS certificate
+             */
+            secretName: string;
+        }>;
+        /**
+         * annotations specifies additional annotations to add to the ingress resource
+         */
+        annotations?: {
+            [key: string]: string;
+        };
+    };
+    /**
+     * service specifies the service configuration for accessing the router
+     */
+    service?: {
+        /**
+         * enabled specifies whether the service is enabled
+         */
+        enabled?: boolean;
+        /**
+         * type specifies the service type (ClusterIP, NodePort, LoadBalancer)
+         */
+        type?: string;
+        /**
+         * port specifies the service port
+         */
+        port?: number;
+        /**
+         * targetPort specifies the target port on the container
+         */
+        targetPort?: number;
+        /**
+         * annotations specifies additional annotations to add to the service resource
+         */
+        annotations?: {
+            [key: string]: string;
+        };
+    };
 }
 export interface routerStatus {
     /**

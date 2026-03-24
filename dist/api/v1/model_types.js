@@ -18,6 +18,7 @@ export class ApiResource {
     }
 }
 export class model extends ApiObject {
+    enabled;
     image;
     imagePullSecret;
     modelStorage;
@@ -31,6 +32,7 @@ export class model extends ApiObject {
     autoscaling;
     nodeSelector;
     tolerations;
+    service;
     status;
     /**
      * Returns the apiVersion and kind for "model"
@@ -63,6 +65,7 @@ export class model extends ApiObject {
             ...model.GVK,
             ...props,
         });
+        this.enabled = props?.spec?.enabled;
         this.image = props?.spec?.image;
         this.imagePullSecret = props?.spec?.imagePullSecret;
         this.modelStorage = props?.spec?.modelStorage;
@@ -110,6 +113,7 @@ export function toJson_modelSpec(obj) {
         return undefined;
     }
     const result = {
+        enabled: obj.enabled,
         image: obj.image,
         imagePullSecret: obj.imagePullSecret,
         modelStorage: obj.modelStorage,
@@ -123,6 +127,7 @@ export function toJson_modelSpec(obj) {
         autoscaling: obj.autoscaling,
         nodeSelector: obj.nodeSelector,
         tolerations: obj.tolerations,
+        service: obj.service,
     };
     // filter undefined values
     return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});

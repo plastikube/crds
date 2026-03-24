@@ -17,6 +17,7 @@ export class ApiResource {
     }
 }
 export class router extends ApiObject {
+    enabled;
     image;
     imagePullSecret;
     env;
@@ -27,6 +28,8 @@ export class router extends ApiObject {
     tolerations;
     auth;
     models;
+    ingress;
+    service;
     status;
     /**
      * Returns the apiVersion and kind for "router"
@@ -59,6 +62,7 @@ export class router extends ApiObject {
             ...router.GVK,
             ...props,
         });
+        this.enabled = props?.spec?.enabled;
         this.image = props?.spec?.image;
         this.imagePullSecret = props?.spec?.imagePullSecret;
         this.env = props?.spec?.env;
@@ -69,6 +73,7 @@ export class router extends ApiObject {
         this.tolerations = props?.spec?.tolerations;
         this.auth = props?.spec?.auth;
         this.models = props?.spec?.models;
+        this.ingress = props?.spec?.ingress;
         this.status = props?.status;
     }
     /**
@@ -98,6 +103,7 @@ export function toJson_routerSpec(obj) {
         return undefined;
     }
     const result = {
+        enabled: obj.enabled,
         image: obj.image,
         imagePullSecret: obj.imagePullSecret,
         env: obj.env,
@@ -108,6 +114,16 @@ export function toJson_routerSpec(obj) {
         tolerations: obj.tolerations,
         auth: obj.auth,
         models: obj.models,
+        ingress: obj.ingress
+            ? {
+                enabled: obj.ingress.enabled,
+                ingressClassName: obj.ingress.ingressClassName,
+                hosts: obj.ingress.hosts,
+                tls: obj.ingress.tls,
+                annotations: obj.ingress.annotations,
+            }
+            : undefined,
+        service: obj.service,
     };
     // filter undefined values
     return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});

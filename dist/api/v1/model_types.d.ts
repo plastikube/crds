@@ -22,6 +22,7 @@ export declare class ApiResource implements cdk8splus.IApiResource {
     asNonApiResource(): string | undefined;
 }
 export declare class model extends ApiObject implements modelSpec {
+    enabled?: boolean;
     image?: string;
     imagePullSecret?: string;
     modelStorage?: {
@@ -61,6 +62,15 @@ export declare class model extends ApiObject implements modelSpec {
         [key: string]: string;
     };
     tolerations?: V1Toleration[];
+    service?: {
+        enabled?: boolean;
+        type?: string;
+        port?: number;
+        targetPort?: number;
+        annotations?: {
+            [key: string]: string;
+        };
+    };
     status?: modelStatus;
     /**
      * Returns the apiVersion and kind for "model"
@@ -94,6 +104,10 @@ export interface modelProps {
 export declare function toJson_modelProps(obj: modelProps | undefined): Record<string, unknown> | undefined;
 export declare function toJson_modelSpec(obj: modelSpec | undefined): Record<string, unknown> | undefined;
 export interface modelSpec {
+    /**
+     * enabled specifies whether the model is enabled
+     */
+    enabled?: boolean;
     /**
      * image specifies the container image to use for the model
      */
@@ -232,6 +246,33 @@ export interface modelSpec {
      * tolerations specify the taints that the pod can tolerate.
      */
     tolerations?: V1Toleration[];
+    /**
+     * service specifies the service configuration for accessing the model
+     */
+    service?: {
+        /**
+         * enabled specifies whether the service is enabled
+         */
+        enabled?: boolean;
+        /**
+         * type specifies the service type (ClusterIP, NodePort, LoadBalancer)
+         */
+        type?: string;
+        /**
+         * port specifies the service port
+         */
+        port?: number;
+        /**
+         * targetPort specifies the target port on the container
+         */
+        targetPort?: number;
+        /**
+         * annotations specifies additional annotations to add to the service resource
+         */
+        annotations?: {
+            [key: string]: string;
+        };
+    };
 }
 export interface modelStatus {
     /**

@@ -23,6 +23,9 @@ spec:
               type: object
               description: routerSpec defines the desired state of router
               properties:
+                enabled:
+                  type: boolean
+                  description: enabled specifies whether the router is enabled
                 image:
                   type: string
                   description: image specifies the container image to use for the router
@@ -269,6 +272,91 @@ spec:
                     required:
                       - model
                   description: models specifies the list of models served by this router
+                ingress:
+                  type: object
+                  properties:
+                    enabled:
+                      type: boolean
+                      description: enabled specifies whether ingress is enabled for this router
+                    ingressClassName:
+                      type: string
+                      description: ingressClassName specifies the class of the ingress controller to
+                        use
+                    hosts:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          host:
+                            type: string
+                            description: host specifies the hostname for the ingress rule
+                          paths:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                path:
+                                  type: string
+                                  description: path specifies the path for the ingress rule
+                                pathType:
+                                  type: string
+                                  description: pathType specifies the path type for the ingress rule (Prefix,
+                                    Exact, ImplementationSpecific)
+                                backendPath:
+                                  type: string
+                                  description: backendPath specifies the path to the backend service
+                            description: paths specifies the paths for the ingress rule
+                        required:
+                          - host
+                      description: hosts specifies the hostnames for which ingress rules should be
+                        created
+                    tls:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          hosts:
+                            type: array
+                            items:
+                              type: string
+                            description: hosts specifies the hosts for which the TLS configuration applies
+                          secretName:
+                            type: string
+                            description: secretName specifies the name of the secret containing the TLS
+                              certificate
+                        required:
+                          - hosts
+                          - secretName
+                      description: tls specifies TLS configuration for the ingress
+                    annotations:
+                      type: object
+                      properties: {}
+                      description: annotations specifies additional annotations to add to the ingress
+                        resource
+                  description: ingress specifies the ingress configuration for routing external
+                    traffic to the router
+                service:
+                  type: object
+                  properties:
+                    enabled:
+                      type: boolean
+                      description: enabled specifies whether the service is enabled
+                    type:
+                      type: string
+                      description: type specifies the service type (ClusterIP, NodePort, LoadBalancer)
+                    port:
+                      type: number
+                      description: port specifies the service port
+                    targetPort:
+                      type: number
+                      description: targetPort specifies the target port on the container
+                    annotations:
+                      type: object
+                      properties: {}
+                      description: annotations specifies additional annotations to add to the service
+                        resource
+                  description: service specifies the service configuration for accessing the
+                    router
               required: []
             status:
               type: object
