@@ -51,6 +51,7 @@ export class ApiResource implements cdk8splus.IApiResource {
 }
 
 export class model extends ApiObject implements modelSpec {
+  public enabled?: boolean;
   public image?: string;
   public imagePullSecret?: string;
   public modelStorage?: {
@@ -125,6 +126,7 @@ export class model extends ApiObject implements modelSpec {
       ...model.GVK,
       ...props,
     });
+    this.enabled = props?.spec?.enabled;
     this.image = props?.spec?.image;
     this.imagePullSecret = props?.spec?.imagePullSecret;
     this.modelStorage = props?.spec?.modelStorage;
@@ -193,6 +195,7 @@ export function toJson_modelSpec(
     return undefined;
   }
   const result = {
+    enabled: obj.enabled,
     image: obj.image,
     imagePullSecret: obj.imagePullSecret,
     modelStorage: obj.modelStorage,
@@ -215,6 +218,11 @@ export function toJson_modelSpec(
 }
 
 export interface modelSpec {
+  /**
+   * enabled specifies whether the model is enabled
+   */
+  enabled?: boolean;
+
   /**
    * image specifies the container image to use for the model
    */
