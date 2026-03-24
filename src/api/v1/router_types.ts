@@ -68,6 +68,7 @@ export class router extends ApiObject implements routerSpec {
   }>;
   public ingress?: {
     enabled?: boolean;
+    ingressClassName?: string;
     hosts?: Array<{
       host: string;
       paths?: Array<{
@@ -80,6 +81,15 @@ export class router extends ApiObject implements routerSpec {
       hosts: string[];
       secretName: string;
     }>;
+    annotations?: {
+      [key: string]: string;
+    };
+  };
+  public service?: {
+    enabled?: boolean;
+    type?: string;
+    port?: number;
+    targetPort?: number;
     annotations?: {
       [key: string]: string;
     };
@@ -188,7 +198,16 @@ export function toJson_routerSpec(
     tolerations: obj.tolerations,
     auth: obj.auth,
     models: obj.models,
-    ingress: obj.ingress,
+    ingress: obj.ingress
+      ? {
+          enabled: obj.ingress.enabled,
+          ingressClassName: obj.ingress.ingressClassName,
+          hosts: obj.ingress.hosts,
+          tls: obj.ingress.tls,
+          annotations: obj.ingress.annotations,
+        }
+      : undefined,
+    service: obj.service,
   };
   // filter undefined values
   return Object.entries(result).reduce(
@@ -296,6 +315,11 @@ export interface routerSpec {
     enabled?: boolean;
 
     /**
+     * ingressClassName specifies the class of the ingress controller to use
+     */
+    ingressClassName?: string;
+
+    /**
      * hosts specifies the hostnames for which ingress rules should be created
      */
     hosts?: Array<{
@@ -342,6 +366,38 @@ export interface routerSpec {
 
     /**
      * annotations specifies additional annotations to add to the ingress resource
+     */
+    annotations?: {
+      [key: string]: string;
+    };
+  };
+
+  /**
+   * service specifies the service configuration for accessing the router
+   */
+  service?: {
+    /**
+     * enabled specifies whether the service is enabled
+     */
+    enabled?: boolean;
+
+    /**
+     * type specifies the service type (ClusterIP, NodePort, LoadBalancer)
+     */
+    type?: string;
+
+    /**
+     * port specifies the service port
+     */
+    port?: number;
+
+    /**
+     * targetPort specifies the target port on the container
+     */
+    targetPort?: number;
+
+    /**
+     * annotations specifies additional annotations to add to the service resource
      */
     annotations?: {
       [key: string]: string;

@@ -91,6 +91,15 @@ export class model extends ApiObject implements modelSpec {
     [key: string]: string;
   };
   public tolerations?: V1Toleration[];
+  public service?: {
+    enabled?: boolean;
+    type?: string;
+    port?: number;
+    targetPort?: number;
+    annotations?: {
+      [key: string]: string;
+    };
+  };
   public status?: modelStatus;
 
   /**
@@ -209,6 +218,7 @@ export function toJson_modelSpec(
     autoscaling: obj.autoscaling,
     nodeSelector: obj.nodeSelector,
     tolerations: obj.tolerations,
+    service: obj.service,
   };
   // filter undefined values
   return Object.entries(result).reduce(
@@ -387,6 +397,38 @@ export interface modelSpec {
    * tolerations specify the taints that the pod can tolerate.
    */
   tolerations?: V1Toleration[];
+
+  /**
+   * service specifies the service configuration for accessing the model
+   */
+  service?: {
+    /**
+     * enabled specifies whether the service is enabled
+     */
+    enabled?: boolean;
+
+    /**
+     * type specifies the service type (ClusterIP, NodePort, LoadBalancer)
+     */
+    type?: string;
+
+    /**
+     * port specifies the service port
+     */
+    port?: number;
+
+    /**
+     * targetPort specifies the target port on the container
+     */
+    targetPort?: number;
+
+    /**
+     * annotations specifies additional annotations to add to the service resource
+     */
+    annotations?: {
+      [key: string]: string;
+    };
+  };
 }
 
 export interface modelStatus {
