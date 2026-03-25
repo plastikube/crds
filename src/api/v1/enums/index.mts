@@ -8,6 +8,8 @@ export enum StatusReasons {
   unknown = 'unknown',
   downloading = 'downloading',
   ready = 'ready',
+  loading = 'loading',
+  unloaded = 'unloaded',
 }
 
 export enum DownloadTypes {
