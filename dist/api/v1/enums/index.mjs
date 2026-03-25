@@ -8,6 +8,8 @@ export var StatusReasons;
     StatusReasons["unknown"] = "unknown";
     StatusReasons["downloading"] = "downloading";
     StatusReasons["ready"] = "ready";
+    StatusReasons["loading"] = "loading";
+    StatusReasons["unloaded"] = "unloaded";
 })(StatusReasons || (StatusReasons = {}));
 export var DownloadTypes;
 (function (DownloadTypes) {

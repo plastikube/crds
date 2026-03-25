@@ -5,7 +5,9 @@ export declare enum StatusReasons {
     modified = "modified",
     unknown = "unknown",
     downloading = "downloading",
-    ready = "ready"
+    ready = "ready",
+    loading = "loading",
+    unloaded = "unloaded"
 }
 export declare enum DownloadTypes {
     HUGGINGFACE_DL = "huggingface-dl",
