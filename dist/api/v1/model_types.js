@@ -127,6 +127,7 @@ export function toJson_modelSpec(obj) {
         autoscaling: obj.autoscaling,
         nodeSelector: obj.nodeSelector,
         tolerations: obj.tolerations,
+        httpPort: obj.httpPort,
         service: obj.service,
     };
     // filter undefined values

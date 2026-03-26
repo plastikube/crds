@@ -145,6 +145,10 @@ export interface routerSpec {
      */
     tolerations?: V1Toleration[];
     /**
+     * httpPort specifies the HTTP API port
+     */
+    httpPort?: number;
+    /**
      * auth specifies the authentication configuration for the router
      */
     auth?: {
@@ -258,6 +262,10 @@ export interface routerSpec {
          * targetPort specifies the target port on the container
          */
         targetPort?: number;
+        /**
+         * httpPort specifies the HTTP API port
+         */
+        httpPort?: number;
         /**
          * annotations specifies additional annotations to add to the service resource
          */

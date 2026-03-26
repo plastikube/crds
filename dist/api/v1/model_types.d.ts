@@ -247,6 +247,10 @@ export interface modelSpec {
      */
     tolerations?: V1Toleration[];
     /**
+     * httpPort specifies the HTTP API port
+     */
+    httpPort?: number;
+    /**
      * service specifies the service configuration for accessing the model
      */
     service?: {
@@ -266,6 +270,10 @@ export interface modelSpec {
          * targetPort specifies the target port on the container
          */
         targetPort?: number;
+        /**
+         * httpPort specifies the HTTP API port
+         */
+        httpPort?: number;
         /**
          * annotations specifies additional annotations to add to the service resource
          */

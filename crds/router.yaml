@@ -216,6 +216,9 @@ spec:
                           is Exists, the value should be empty, otherwise just a
                           regular string.
                   description: tolerations specify the taints that the pod can tolerate.
+                httpPort:
+                  type: number
+                  description: httpPort specifies the HTTP API port
                 auth:
                   type: object
                   properties:
@@ -350,6 +353,9 @@ spec:
                     targetPort:
                       type: number
                       description: targetPort specifies the target port on the container
+                    httpPort:
+                      type: number
+                      description: httpPort specifies the HTTP API port
                     annotations:
                       type: object
                       properties: {}

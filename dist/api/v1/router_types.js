@@ -112,6 +112,7 @@ export function toJson_routerSpec(obj) {
         replicas: obj.replicas,
         nodeSelector: obj.nodeSelector,
         tolerations: obj.tolerations,
+        httpPort: obj.httpPort,
         auth: obj.auth,
         models: obj.models,
         ingress: obj.ingress
