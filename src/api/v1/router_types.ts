@@ -46,6 +46,7 @@ export class router extends ApiObject implements routerSpec {
   public enabled?: boolean;
   public image?: string;
   public imagePullSecret?: string;
+  public imagePullPolicy?: string;
   public env?: V1EnvVar[];
   public entrypoint?: string[];
   public args?: string[];
@@ -232,6 +233,11 @@ export interface routerSpec {
    * imagePullSecret specifies the secret to use for pulling the image
    */
   imagePullSecret?: string;
+
+  /**
+   * imagePullPolicy specifies the image pull policy for the router container
+   */
+  imagePullPolicy?: string;
 
   /**
    * env specifies extra environment variables to set in the container
