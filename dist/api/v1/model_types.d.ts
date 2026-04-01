@@ -25,6 +25,7 @@ export declare class model extends ApiObject implements modelSpec {
     enabled?: boolean;
     image?: string;
     imagePullSecret?: string;
+    imagePullPolicy?: string;
     modelStorage?: {
         persistentVolumeClaim?: V1PersistentVolumeClaimSpec;
         existingVolume?: string;
@@ -35,6 +36,7 @@ export declare class model extends ApiObject implements modelSpec {
             job?: {
                 image?: string;
                 imagePullSecret?: string;
+                imagePullPolicy?: string;
                 entrypoint?: string[];
                 args?: string[];
                 env?: V1EnvVar[];
@@ -117,6 +119,10 @@ export interface modelSpec {
      */
     imagePullSecret?: string;
     /**
+     * imagePullPolicy specifies the image pull policy for the model container
+     */
+    imagePullPolicy?: string;
+    /**
      * modelStorage defines the storage configuration for the model
      */
     modelStorage?: {
@@ -156,6 +162,10 @@ export interface modelSpec {
                  * imagePullSecret specifies the secret to use for pulling the downloader image
                  */
                 imagePullSecret?: string;
+                /**
+                 * imagePullPolicy specifies the image pull policy for the downloader
+                 */
+                imagePullPolicy?: string;
                 /**
                  * entrypoint overrides the image entrypoint for the downloader
                  */

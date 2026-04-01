@@ -32,6 +32,10 @@ spec:
                 imagePullSecret:
                   type: string
                   description: imagePullSecret specifies the secret to use for pulling the image
+                imagePullPolicy:
+                  type: string
+                  description: imagePullPolicy specifies the image pull policy for the model
+                    container
                 modelStorage:
                   type: object
                   properties:
@@ -219,6 +223,9 @@ spec:
                               type: string
                               description: imagePullSecret specifies the secret to use for pulling the
                                 downloader image
+                            imagePullPolicy:
+                              type: string
+                              description: imagePullPolicy specifies the image pull policy for the downloader
                             entrypoint:
                               type: array
                               items:

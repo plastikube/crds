@@ -21,6 +21,7 @@ export class model extends ApiObject {
     enabled;
     image;
     imagePullSecret;
+    imagePullPolicy;
     modelStorage;
     engine;
     features;

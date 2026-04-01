@@ -32,6 +32,10 @@ spec:
                 imagePullSecret:
                   type: string
                   description: imagePullSecret specifies the secret to use for pulling the image
+                imagePullPolicy:
+                  type: string
+                  description: imagePullPolicy specifies the image pull policy for the router
+                    container
                 env:
                   type: array
                   items:

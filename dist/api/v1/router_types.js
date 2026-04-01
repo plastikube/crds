@@ -20,6 +20,7 @@ export class router extends ApiObject {
     enabled;
     image;
     imagePullSecret;
+    imagePullPolicy;
     env;
     entrypoint;
     args;
